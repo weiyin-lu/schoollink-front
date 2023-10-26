@@ -4,17 +4,22 @@ import { createStore } from 'vuex'
 const store = createStore({
     state () {
         return {
-            count: 0
+            token: {}
         }
     },
     getters:{
-        getCount(state){
-            return state.count
+        getToken(state) {
+            return state.token
         }
     },
     mutations: {
-        increment (state) {
-            state.count++
+        setToken(state, token) {
+            state.token = token
+        }
+    },
+    actions: {
+        setTokenAction(context, token) {
+            context.commit('setToken', token);
         }
     }
 })
