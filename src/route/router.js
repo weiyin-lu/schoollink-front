@@ -3,11 +3,14 @@ import { createRouter,createWebHistory} from "vue-router"
 const routes = [
     {
         path:'/',
-        redirect: 'login'
     },
     {
         path:'/login',
         component: () => import('/src/components/Login.vue')
+    },
+    {
+        path:'/tableList',
+        component: () => import('/src/components/TableList.vue')
     },
 ]
 

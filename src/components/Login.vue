@@ -3,6 +3,7 @@
     <el-input type="password" placeholder="密码" v-model="loginInfo.password"/>
     <el-button type="primary" @click="login(loginInfo)">登录</el-button>
     <el-button type="primary" @click="checkLogin()">检查登录状态</el-button>
+  <el-button type="primary" @click="logout()">登出</el-button>
 </template>
 
 <script setup>
@@ -38,9 +39,31 @@ const loginInfo = ref({
   const checkLogin = () => {
     request.isLogin()
         .then(resp => {
-          console.log(resp.data)
+          if(resp.data.code == 200) {
+            ElMessage({
+              message: resp.data.msg,
+              type: "success"
+            })
+          } else {
+            ElMessage({
+              message: resp.data.msg,
+              type: "error"
+            })
+          }
         })
   }
+
+const logout = () => {
+  request.logout()
+      .then(resp => {
+        if (resp.data.code == 200) {
+          ElMessage({
+            message: resp.data.msg,
+            type: "success"
+          })
+        }
+      })
+}
 </script>
 
 <style scoped>
