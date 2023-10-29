@@ -25,6 +25,18 @@ const routes = [
                 path: 'teacherList',
                 component: () => import('/src/components/TeacherList.vue')
             },
+            {
+                path: 'studentList',
+                component: () => import('/src/components/StudentList.vue')
+            },
+            {
+                path: 'parentList',
+                component: () => import('/src/components/ParentList.vue')
+            },
+            {
+                path: 'dicList',
+                component: () => import('/src/components/DicList.vue')
+            },
         ]
     },
 ]

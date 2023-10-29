@@ -1,6 +1,7 @@
 <template>
   <div>
     <el-tag>个人信息</el-tag>
+    <el-divider />
     <el-card>
       <template #header>
         欢迎你，用户

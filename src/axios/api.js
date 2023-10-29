@@ -35,6 +35,9 @@ api.removeTeacher = () => {
     return http.get("/admins/removeTeacher")
 }
 // dictionary
+api.getKey = () => {
+    return http.get("/dictionary/getKey")
+}
 api.addCode = (dto) => {
     return http.post("/dictionary/addCode", dto)
 }
@@ -65,7 +68,10 @@ api.updateTeacher = (dto) => {
     return http.post("/teachers/updateTeacher", dto)
 }
 // student
-api.getStudentList = (value) => {
+api.getStudentList = () => {
+    return http.get("/students/getStudentsList")
+}
+api.getStudentListByGrade = (value) => {
     return http.get("/students/getStudentsList/" + value)
 }
 api.getStudentsByUnique = (value) => {
