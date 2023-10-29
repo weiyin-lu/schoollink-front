@@ -1,12 +1,10 @@
-//api.js: 请求方法封装
-
 import http from "./axios.js";
 
-//封装方法
+//封装请求路径
 const api = {}
 // user
 api.login = (dto) => {
-    return http.post("/users/login",dto)
+    return http.post("/users/login", dto)
 }
 api.isLogin = () => {
     return http.get("/users/isLogin")
@@ -18,7 +16,7 @@ api.getInfo = () => {
     return http.get("/users/getInfo")
 }
 api.register = (dto) => {
-    return http.post("/users/register",dto)
+    return http.post("/users/register", dto)
 }
 // admin
 api.addGradeForStudent = (id,value) => {
@@ -38,7 +36,7 @@ api.removeTeacher = () => {
 }
 // dictionary
 api.addCode = (dto) => {
-    return http.post("/dictionary/addCode",dto)
+    return http.post("/dictionary/addCode", dto)
 }
 api.getCode = (value) => {
     return http.get("/dictionary/getCode/" + value)
@@ -48,7 +46,7 @@ api.updateCode = (dto) => {
 }
 // notice
 api.addNotice = (dto) => {
-    return http.post("/notices/createNotice",dto)
+    return http.post("/notices/createNotice", dto)
 }
 api.showNoticeByCreator = () => {
     return http.get("/notices/showNoticeByCreator")
@@ -60,6 +58,37 @@ api.showNoticeByCondition = (value) => {
 api.getTeachersList = () => {
     return http.get("/teachers/getTeachersList")
 }
-
-
+api.getTeachersByUnique = (value) => {
+    return http.get("/teachers/getTeachersByUnique/" + value)
+}
+api.updateTeacher = (dto) => {
+    return http.post("/teachers/updateTeacher", dto)
+}
+// student
+api.getStudentList = (value) => {
+    return http.get("/students/getStudentsList/" + value)
+}
+api.getStudentsByUnique = (value) => {
+    return http.get("/students/getStudentsByUnique/" + value)
+}
+api.setParent = (id,value) => {
+    return http.get("/students/setParent/" + id, "/" + value)
+}
+api.updateStudent = (dto) => {
+    return http.post("/students/updateStudent", dto)
+}
+// parent
+api.getParentsList = () => {
+    return http.get("/parents/getParentsList")
+}
+api.getParentByUnique = (value) => {
+    return http.get("/parents/getParentByUnique/" + value)
+}
+api.getOwnStudent = (value) => {
+    return http.get("/parents/getStudentList/" + value)
+}
+api.updateParent = (dto) => {
+    return http.post("/parents/updateParent", dto)
+}
+// 导出
 export default api

@@ -10,7 +10,7 @@ import api from "./axios/api.js";
 
 const app = createApp(App);
 
-// 暴露全局变量
+// 暴露axios相关的全局变量
 app.provide('$request', http)
 app.provide('$api', api)
 
