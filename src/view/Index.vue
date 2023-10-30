@@ -32,7 +32,7 @@
           <el-menu-item index="teacherList">教师管理</el-menu-item>
           <el-menu-item index="studentList">学生管理</el-menu-item>
           <el-menu-item index="parentList">家长管理</el-menu-item>
-          <el-menu-item>通知管理</el-menu-item>
+          <el-menu-item index="noticeList">通知管理</el-menu-item>
           <el-menu-item index="dicList">字典管理</el-menu-item>
         </el-menu>
       </el-aside>

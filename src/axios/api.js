@@ -18,6 +18,9 @@ api.getInfo = () => {
 api.register = (dto) => {
     return http.post("/users/register", dto)
 }
+api.getType = () => {
+    return http.get("/users/getType")
+}
 // admin
 api.addGradeForStudent = (id,value) => {
     return http.get("/admins/addGradeForStudent/" + id + "/" + value)
@@ -52,10 +55,10 @@ api.addNotice = (dto) => {
     return http.post("/notices/createNotice", dto)
 }
 api.showNoticeByCreator = () => {
-    return http.get("/notices/showNoticeByCreator")
+    return http.get("/notices/showNoticeListByCreator")
 }
 api.showNoticeByCondition = (value) => {
-    return http.get("/notices/showNoticeByCondition/" + value)
+    return http.get("/notices/showNoticeListByCondition/" + value)
 }
 // teacher
 api.getTeachersList = () => {

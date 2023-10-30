@@ -37,6 +37,10 @@ const routes = [
                 path: 'dicList',
                 component: () => import('/src/components/DicList.vue')
             },
+            {
+                path: 'noticeList',
+                component: () => import('/src/components/NoticeList.vue')
+            },
         ]
     },
 ]
