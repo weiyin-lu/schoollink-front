@@ -10,8 +10,8 @@
   <div>
     <el-tag>人员信息</el-tag>
     <el-table :data="teacherList">
-      <el-table-column prop="teacherUniqueId" label="工号"/>
-      <el-table-column prop="teacherName" label="姓名"/>
+      <el-table-column prop="uniqueId" label="工号"/>
+      <el-table-column prop="name" label="姓名"/>
       <el-table-column prop="gender" label="性别" :formatter="genderFormat"/>
       <el-table-column prop="grade" label="管理班级" :formatter="gradeFormat"/>
       <el-table-column prop="contactPhone" label="联系方式（电话）"/>

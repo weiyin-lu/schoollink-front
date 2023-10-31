@@ -56,15 +56,21 @@
 import {ElMessage} from "element-plus";
 import {inject, ref} from "vue";
 import {useRouter} from "vue-router";
+import {useStore} from "vuex";
 
 const request = inject("$api")
 const router = useRouter()
+const vuex = useStore()
 
 const dialogVisible = ref(false)
 const logout = () => {
   request.logout()
       .then(resp => {
         if (resp.data.code == 200) {
+          // 清空vuex
+          vuex.dispatch("setInfoAction",null)
+          vuex.dispatch("setRoleAction",null)
+          vuex.dispatch("setTokenAction",null)
           ElMessage({
             message: resp.data.msg,
             type: "success"

@@ -11,8 +11,8 @@
   <div>
     <el-tag>人员信息</el-tag>
     <el-table :data="parentList">
-      <el-table-column prop="parentUniqueId" label="编号"/>
-      <el-table-column prop="parentName" label="姓名"/>
+      <el-table-column prop="uniqueId" label="编号"/>
+      <el-table-column prop="name" label="姓名"/>
       <el-table-column prop="gender" label="性别" :formatter="genderFormat"/>
       <el-table-column prop="contactPhone" label="联系方式（电话）"/>
       <el-table-column prop="contactEmail" label="联系方式（邮箱）"/>
@@ -35,7 +35,7 @@ const request = inject('$api')
 const parentList = ref([])
 const genderList = ref({})
 const gradeList = ref({})
-// 查询条件
+// 判断标识和查询条件
 const idQuery = ref("")
 const nameQuery = ref("")
 

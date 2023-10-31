@@ -18,8 +18,8 @@ api.getInfo = () => {
 api.register = (dto) => {
     return http.post("/users/register", dto)
 }
-api.getType = () => {
-    return http.get("/users/getType")
+api.getRole = () => {
+    return http.get("/users/getRole")
 }
 // admin
 api.addGradeForStudent = (id,value) => {

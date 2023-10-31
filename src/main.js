@@ -13,7 +13,5 @@ const app = createApp(App);
 // 暴露axios相关的全局变量
 app.provide('$request', http)
 app.provide('$api', api)
-// vuex相关的全局变量
-app.provide('$store', vuex)
 
 app.use(route).use(vuex).use(ElementPlus).mount('#app')

@@ -20,17 +20,17 @@ const loginInfo = ref({
   password: "",
   username: ""
 })
-const login = (loginInfo) => {
-  request.login(loginInfo)
+const login = async (loginInfo) => {
+  await request.login(loginInfo)
       .then(r => {
         if (r.data.code == 200) {
           ElMessage.success(r.data.msg)
           // token录入到vuex
           vuex.dispatch('setTokenAction', r.data.data)
           // 当前用户身份录入到vuex
-          request.getType()
+          request.getRole()
               .then(r2 => {
-                vuex.dispatch('setTypeAction', r2.data.data)
+                vuex.dispatch('setRoleAction', r2.data.data)
               })
           // 当前用户信息录入到vuex
           request.getInfo()
@@ -39,7 +39,7 @@ const login = (loginInfo) => {
               })
           router.push("/index")
         } else {
-          ElMessage.warning(resp.data.msg)
+          ElMessage.warning(r.data.msg)
         }
       })
 }
@@ -57,7 +57,6 @@ const checkLogin = () => {
 
 const logout = () => {
   request.logout()
-
       .then(resp => {
         if (resp.data.code == 200) {
           ElMessage({

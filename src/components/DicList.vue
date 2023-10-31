@@ -36,12 +36,12 @@
 <script setup>
 
 import {inject, onMounted, ref} from "vue";
-
+// 全局组件变量
 const request = inject('$api')
-
+// 数据列表
 const dicKeyList = ref()
 const dicList = ref({})
-
+// 判断标识和查询条件
 const dialogVisible = ref(false)
 
 const getCodeByType = (value) => {

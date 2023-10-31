@@ -15,8 +15,8 @@
   <div>
     <el-tag>人员信息</el-tag>
     <el-table :data="studentList">
-      <el-table-column prop="studentUniqueId" label="学号"/>
-      <el-table-column prop="studentName" label="姓名"/>
+      <el-table-column prop="uniqueId" label="学号"/>
+      <el-table-column prop="name" label="姓名"/>
       <el-table-column prop="gender" label="性别" :formatter="genderFormat"/>
       <el-table-column prop="grade" label="所在班级" :formatter="gradeFormat"/>
       <el-table-column prop="parents" label="家长" :formatter="parentFormat"/>

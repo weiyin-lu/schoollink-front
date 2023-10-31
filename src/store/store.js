@@ -6,7 +6,7 @@ const store = createStore({
         return {
             // token数据，登录时装载
             token: {},
-            type: "",
+            role: null,
             info: {}
         }
     },
@@ -14,7 +14,7 @@ const store = createStore({
         getToken(state) {
             return state.token
         },
-        getType(state) {
+        getRole(state) {
             return state.type
         },
         getInfo(state) {
@@ -25,8 +25,8 @@ const store = createStore({
         setToken(state, token) {
             state.token = token
         },
-        setType(state, type) {
-            state.type = type
+        setRole(state, role) {
+            state.role = role
         },
         setInfo(state, info) {
             state.info = info
@@ -36,8 +36,8 @@ const store = createStore({
         setTokenAction(context, token) {
             context.commit('setToken', token);
         },
-        setTypeAction(context, type) {
-            context.commit('setType', type);
+        setRoleAction(context, role) {
+            context.commit('setRole', role);
         },
         setInfoAction(context, info) {
             context.commit('setInfo', info);
