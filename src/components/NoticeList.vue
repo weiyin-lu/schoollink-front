@@ -1,4 +1,5 @@
 <template>
+  <el-button type="primary">发布通知</el-button>
   <div id="pad">
     <el-tag>我收到的</el-tag>
   </div>
@@ -119,5 +120,6 @@ onMounted(() => {
 
 #pad {
   padding-bottom: 10px;
+  padding-top: 10px;
 }
 </style>

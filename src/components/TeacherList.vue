@@ -75,6 +75,7 @@ onMounted(() => {
 </script>
 <style scoped>
 #pad {
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 </style>

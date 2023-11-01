@@ -12,7 +12,8 @@
       <div><el-tag>联系邮箱</el-tag> {{ getInfo.contactEmail }}</div>
       <div v-if="vuex.state.role == '1'"><el-tag>管理班级</el-tag> {{ gradeFormat(getInfo.grade) }}</div>
       <div v-if="vuex.state.role == '2'"><el-tag>所在班级</el-tag> {{ gradeFormat(getInfo.grade) }}</div>
-
+      <el-divider />
+      <el-button type="primary">修改个人信息</el-button>
     </el-card>
   </div>
 </template>

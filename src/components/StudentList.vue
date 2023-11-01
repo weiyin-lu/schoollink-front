@@ -1,16 +1,17 @@
 <template>
-  <div>
-    <el-tag>查询选项</el-tag>
-    <div id="pad">
-      <el-input style="width: 300px" v-model="idQuery" placeholder="学号"/>
-      <el-input style="width: 300px" v-model="nameQuery" placeholder="姓名"/>
-      <el-select style="width: 300px" v-model="gradeQuery" placeholder="班级">
-        <el-option v-for="item in Object.keys(gradeList)"
-                   :value="item"
-                   :label="gradeList[item]"/>
-      </el-select>
-      <el-button type="primary">搜索</el-button>
-    </div>
+  <el-tag>查询选项</el-tag>
+  <div id="pad">
+    <el-select style="width: 300px" v-model="gradeQuery" placeholder="班级">
+      <el-option v-for="item in Object.keys(gradeList)"
+                 :value="item"
+                 :label="gradeList[item]"/>
+    </el-select>
+    <el-button type="primary">搜索</el-button>
+  </div>
+  <div id="pad">
+    <el-input style="width: 300px" v-model="idQuery" placeholder="学号"/>
+    <el-input style="width: 300px" v-model="nameQuery" placeholder="姓名"/>
+    <el-button type="primary">搜索</el-button>
   </div>
   <div>
     <el-tag>人员信息</el-tag>
@@ -19,9 +20,22 @@
       <el-table-column prop="name" label="姓名"/>
       <el-table-column prop="gender" label="性别" :formatter="genderFormat"/>
       <el-table-column prop="grade" label="所在班级" :formatter="gradeFormat"/>
-      <el-table-column prop="parents" label="家长" :formatter="parentFormat"/>
-      <el-table-column prop="contactPhone" label="联系方式（电话）"/>
-      <el-table-column prop="contactEmail" label="联系方式（邮箱）"/>
+      <el-table-column label="家长信息">
+        <template v-slot:default="scope">
+          <el-popover trigger="hover" placement="right" width="200px">
+            <template #reference>
+              <el-button @mouseover="getParentInfo(scope.row.parents)">家长信息</el-button>
+            </template>
+            <el-tag>家长</el-tag>
+            {{ parentInfo.name }}
+            <br/>
+            <el-tag>联系电话</el-tag>
+            {{ parentInfo.contactPhone }}
+          </el-popover>
+        </template>
+      </el-table-column>
+      <el-table-column prop="contactPhone" label="联系方式（电话）" :formatter="nullFormat"/>
+      <el-table-column prop="contactEmail" label="联系方式（邮箱）" :formatter="nullFormat"/>
       <el-table-column fixed="right" label="操作" width="300">
         <template #default>
           <el-button type="danger">移除学生</el-button>
@@ -40,6 +54,7 @@ const request = inject('$api')
 const studentList = ref([])
 const genderList = ref({})
 const gradeList = ref({})
+const parentInfo = ref({})
 // 查询条件
 const idQuery = ref("")
 const nameQuery = ref("")
@@ -52,19 +67,29 @@ const genderFormat = (row, column, cellValue) => {
 const gradeFormat = (row, column, cellValue) => {
   return gradeList.value[cellValue]
 }
-// 此处有问题，返回的是Promise对象
-// const parentFormat = async (row, column, cellValue) => {
-//   let name = '';
-//   await request.getParentByUnique(cellValue)
-//       .then(r => {
-//         if (r.data.code == 200 && r.data.data != null) {
-//           name = r.data.data.parentName
-//         } else {
-//           name = "暂未分配"
-//         }
-//       })
-//   return name;
-// }
+const nullFormat = (row, column, cellValue) => {
+  if (cellValue == null) {
+    return '暂无'
+  } else {
+    return cellValue
+  }
+}
+
+// 数据获取
+const getParentInfo = (value) => {
+  request.getParentByUnique(value)
+      .then(r => {
+        if (r.data.data != null) {
+          parentInfo.value = r.data.data
+        } else {
+          parentInfo.value = {
+            name: "暂无",
+            contactPhone: "暂无"
+          }
+        }
+      })
+}
+
 
 // 初始化
 onMounted(() => {
@@ -94,6 +119,7 @@ onMounted(() => {
 </script>
 <style scoped>
 #pad {
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 </style>

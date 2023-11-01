@@ -7,7 +7,6 @@
       <el-button type="primary">搜索</el-button>
     </div>
   </div>
-  <el-divider />
   <div>
     <el-tag>人员信息</el-tag>
     <el-table :data="parentList">
@@ -86,6 +85,7 @@ onMounted(() => {
 </script>
 <style scoped>
 #pad {
-  padding: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 </style>

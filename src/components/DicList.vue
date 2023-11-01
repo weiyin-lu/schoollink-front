@@ -1,8 +1,8 @@
 <template>
-  <el-tag>字典管理</el-tag>
-  <el-divider />
-  <el-button>新增字典</el-button>
-  <el-divider />
+  <el-button type="primary">新增字典</el-button>
+  <div id="pad">
+    <el-tag>字典列表</el-tag>
+  </div>
   <div>
     <el-row gutter="20">
       <el-col :span="6" v-for="item in dicKeyList">
@@ -15,19 +15,27 @@
       </el-col>
     </el-row>
   </div>
-  <el-dialog v-model="dialogVisible" >
+  <el-dialog v-model="dialogVisible">
     <template #header>
       字典详情
     </template>
     <el-row gutter="10px">
-      <el-col :span="8"><el-tag>编码id</el-tag></el-col>
-      <el-col :span="8"><el-tag>编码含义</el-tag></el-col>
-      <el-col :span="8"><el-tag>操作</el-tag></el-col>
+      <el-col :span="8">
+        <el-tag>编码id</el-tag>
+      </el-col>
+      <el-col :span="8">
+        <el-tag>编码含义</el-tag>
+      </el-col>
+      <el-col :span="8">
+        <el-tag>操作</el-tag>
+      </el-col>
     </el-row>
     <el-row gutter="10px" v-for="(value,key,index) in dicList">
-        <el-col id="tab" :span="8">{{key}}</el-col>
-        <el-col id="tab" :span="8">{{value}}</el-col>
-        <el-col id="tab" :span="8"><el-button size="small">修改</el-button></el-col>
+      <el-col id="tab" :span="8">{{ key }}</el-col>
+      <el-col id="tab" :span="8">{{ value }}</el-col>
+      <el-col id="tab" :span="8">
+        <el-button size="small">修改</el-button>
+      </el-col>
     </el-row>
     <el-button type="primary">添加</el-button>
   </el-dialog>
@@ -60,6 +68,11 @@ onMounted(() => {
 </script>
 
 <style scoped>
+#pad {
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
 #tab {
   font-size: 15px;
   padding-top: 15px;
