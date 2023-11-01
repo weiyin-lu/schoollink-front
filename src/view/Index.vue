@@ -29,12 +29,12 @@
             id="aside"
             background-color="f9f9f9"
             text-color="#f47983">
-          <el-menu-item index="teacherList">教师管理</el-menu-item>
-          <el-menu-item index="studentList">学生管理</el-menu-item>
-          <el-menu-item index="parentList">家长管理</el-menu-item>
-          <el-menu-item index="noticeList">通知管理</el-menu-item>
-          <el-menu-item index="dicList">字典管理</el-menu-item>
-          <el-menu-item index="gradeManage">班级管理</el-menu-item>
+          <el-menu-item v-if="vuex.state.role[0] == 'admin'" index="teacherList">教师管理</el-menu-item>
+          <el-menu-item v-if="vuex.state.role[0] == 'admin'" index="studentList">学生管理</el-menu-item>
+          <el-menu-item v-if="vuex.state.role[0] == 'admin'" index="parentList">家长管理</el-menu-item>
+          <el-menu-item v-if="vuex.state.role[0] == 'admin'" index="dicList">字典管理</el-menu-item>
+          <el-menu-item v-if="vuex.state.role[0] == '1'" index="gradeManage">班级管理</el-menu-item>
+          <el-menu-item index="noticeList">通知</el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>
@@ -70,10 +70,7 @@ const logout = () => {
         if (resp.data.code == 200) {
           // 清空vuex
           vuex.dispatch('clearAllAction')
-          ElMessage({
-            message: resp.data.msg,
-            type: "success"
-          })
+          ElMessage.success(resp.data.msg)
         }
       })
   router.push("/login")

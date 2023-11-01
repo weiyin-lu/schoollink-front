@@ -21,7 +21,7 @@
       <el-table-column prop="gender" label="性别" :formatter="genderFormat"/>
       <el-table-column prop="grade" label="所在班级" :formatter="gradeFormat"/>
       <el-table-column label="家长信息">
-        <template v-slot:default="scope">
+        <template #default="scope">
           <el-popover trigger="hover" placement="right" width="200px">
             <template #reference>
               <el-button @mouseover="getParentInfo(scope.row.parents)">家长信息</el-button>

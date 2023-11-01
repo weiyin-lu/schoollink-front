@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {ElMessage} from "element-plus";
 import router from "/src/route/router"
+import vuex from "/src/store/store"
 
 // 构造一个请求对象，做基本配置
 const http = axios.create({
@@ -20,17 +21,17 @@ http.interceptors.request.use((config) => {
 // 响应拦截器
 http.interceptors.response.use(
     // 正常的响应走此
-    response =>{
+    response => {
         return response
     },
     // 原生html-code>300（错误响应）走此
     error => {
-        // 低配防盗链
+        // 对后端防盗链的响应
+        ElMessage.error(error.response.data.msg)
         if(error.response.data.code == 1002) {
-            ElMessage.error(error.response.data.msg)
             router.push("/login")
-            return Promise.reject(error.response)
         }
+        return Promise.reject(error.response)
     }
 )
 
