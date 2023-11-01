@@ -1,5 +1,5 @@
 <template>
-  <el-button v-if="vuex.state.role[0] != '3'" type="primary">发布通知</el-button>
+  <el-button v-if="vuex.state.role[0] != '3'" type="primary" @click="dialogVisibleAdd = true">发布通知</el-button>
   <div id="pad">
     <el-tag>我收到的</el-tag>
   </div>
@@ -18,7 +18,7 @@
           通知目标:我
         </span>
         <span id="button">
-          <el-button @click="dialogVisible=true">查看详情</el-button>
+          <el-button @click="dialogVisibleDetail=true">查看详情</el-button>
         </span>
       </el-card>
     </el-col>
@@ -36,7 +36,7 @@
           通知目标:班级
         </span>
         <span id="button">
-          <el-button @click="dialogVisible=true">查看详情</el-button>
+          <el-button @click="dialogVisibleDetail=true">查看详情</el-button>
         </span>
       </el-card>
     </el-col>
@@ -61,12 +61,19 @@
           通知目标:{{ item.noticeTarget }}
         </span>
           <span id="button">
-          <el-button @click="dialogVisible=true">查看详情</el-button>
+          <el-button @click="dialogVisibleDetail=true">查看详情</el-button>
         </span>
         </el-card>
       </el-col>
     </el-row>
   </div>
+  <el-dialog v-model="dialogVisibleDetail">
+    通知详情
+  </el-dialog>
+  <el-dialog v-model="dialogVisibleAdd">
+    添加通知
+  </el-dialog>
+
 </template>
 
 <script setup>
@@ -81,7 +88,8 @@ const toPersonNoticeList = ref([])
 const toGradeNoticeList = ref([])
 const noticeTypeList = ref({})
 // 判断标识和查询条件
-const dialogVisible = ref(false)
+const dialogVisibleDetail = ref(false)
+const dialogVisibleAdd = ref(false)
 // 页面初始化
 onMounted(() => {
   request.showNoticeByCreator()
