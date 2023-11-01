@@ -34,6 +34,7 @@
           <el-menu-item index="parentList">家长管理</el-menu-item>
           <el-menu-item index="noticeList">通知管理</el-menu-item>
           <el-menu-item index="dicList">字典管理</el-menu-item>
+          <el-menu-item index="gradeManage">班级管理</el-menu-item>
         </el-menu>
       </el-aside>
       <el-main>
@@ -68,9 +69,7 @@ const logout = () => {
       .then(resp => {
         if (resp.data.code == 200) {
           // 清空vuex
-          vuex.dispatch("setInfoAction",null)
-          vuex.dispatch("setRoleAction",null)
-          vuex.dispatch("setTokenAction",null)
+          vuex.dispatch('clearAllAction')
           ElMessage({
             message: resp.data.msg,
             type: "success"

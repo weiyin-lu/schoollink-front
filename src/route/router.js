@@ -41,6 +41,10 @@ const routes = [
                 path: 'noticeList',
                 component: () => import('/src/components/NoticeList.vue')
             },
+            {
+                path: 'gradeManage',
+                component: () => import('/src/components/GradeManage.vue')
+            },
         ]
     },
 ]
