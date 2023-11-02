@@ -1,9 +1,10 @@
 <template>
   <el-tag>查询选项</el-tag>
   <div id="pad">
-    <el-select style="width: 300px" v-model="gradeQuery" placeholder="班级">
+    <el-select style="width: 300px" v-model="gradeQuery" filterable placeholder="班级">
       <el-option v-for="item in Object.keys(gradeList)"
                  :value="item"
+                 :key="item"
                  :label="gradeList[item]"/>
     </el-select>
     <el-button type="primary" @click="queryStudentByGrade()">搜索</el-button>
