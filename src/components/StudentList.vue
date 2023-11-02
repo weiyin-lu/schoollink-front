@@ -55,8 +55,8 @@
       </el-table-column>
     </el-table>
     <el-dialog v-model="dialogVisible" width="450px">
-      <template #header>
-        添加/修改家长
+      <template #title>
+        <h3>分配家长</h3>
       </template>
       <el-select v-model="parentData.parent" filterable placeholder="输入家长编号">
         <el-option v-for="item in parentList"
@@ -65,7 +65,9 @@
           {{ item.name }}
         </el-option>
       </el-select>
-      <el-button @click="changeParent()">确定</el-button>
+      <template #footer>
+        <el-button @click="changeParent()">确定</el-button>
+      </template>
     </el-dialog>
   </div>
 </template>
@@ -179,7 +181,7 @@ const changeParentBefore = (value) => {
 }
 // 修改家长
 const changeParent = () => {
-  request.setParent(parentData.value.id,parentData.value.parent)
+  request.setParent(parentData.value.id, parentData.value.parent)
       .then(r => {
         ElMessage.success(r.data.msg)
         dialogVisible.value = false

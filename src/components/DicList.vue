@@ -16,8 +16,8 @@
     </el-row>
   </div>
   <el-dialog v-model="dialogVisible">
-    <template #header>
-      字典详情
+    <template #title>
+      <h3>字典详情</h3>
     </template>
     <el-row gutter="10px">
       <el-col :span="8">
@@ -37,7 +37,9 @@
         <el-button size="small">修改</el-button>
       </el-col>
     </el-row>
-    <el-button type="primary">添加</el-button>
+    <template #header>
+      <el-button type="primary">添加</el-button>
+    </template>
   </el-dialog>
 </template>
 
@@ -56,7 +58,7 @@ const dialogVisible = ref(false)
 
 // 获取对应字典编码的键值列表
 const getCodeByType = (value) => {
-  dialogVisible.value=true;
+  dialogVisible.value = true;
   request.getCode(value)
       .then(r => {
         dicList.value = r.data.data

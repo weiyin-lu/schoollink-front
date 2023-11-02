@@ -20,8 +20,8 @@ const loginInfo = ref({
   password: "",
   username: ""
 })
-const login = async (loginInfo) => {
-  await request.login(loginInfo)
+const login = (loginInfo) => {
+  request.login(loginInfo)
       .then(r => {
         if (r.data.code == 200) {
           ElMessage.success(r.data.msg)
@@ -34,7 +34,7 @@ const login = async (loginInfo) => {
               })
           // 当前用户信息录入到vuex
           request.getInfo()
-              .then( r3 => {
+              .then(r3 => {
                 vuex.dispatch('setInfoAction', r3.data.data)
               })
           router.push("/index")

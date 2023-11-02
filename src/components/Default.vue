@@ -33,7 +33,7 @@
       <el-divider/>
       <el-button type="primary" @click="updateInfoBefore()">修改个人信息</el-button>
       <el-dialog v-model="dialogVisible" width="400px">
-        <template #header>
+        <template #title>
           <h3>修改个人信息</h3>
         </template>
         <el-input type="text" v-model="updateData.contactPhone" placeholder="联系电话"/>
@@ -44,9 +44,9 @@
                      :key="item"
                      :value="item"/>
         </el-select>
-        <div id="center">
+        <template #footer>
           <el-button type="success" @click="updateInfo()">修改</el-button>
-        </div>
+        </template>
       </el-dialog>
     </el-card>
   </div>
@@ -104,7 +104,7 @@ const updateInfo = () => {
   }
   // 重新更新一次用户信息
   request.getInfo()
-      .then( r3 => {
+      .then(r3 => {
         vuex.dispatch('setInfoAction', r3.data.data)
       })
   dialogVisible.value = false

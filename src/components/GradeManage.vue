@@ -39,9 +39,10 @@
     </el-table-column>
   </el-table>
   <el-dialog v-model="dialogVisibleParent" width="450px">
-    <template #header>
-      添加/修改家长
+    <template #title>
+      <h3>分配家长</h3>
     </template>
+    选择家长信息：
     <el-select v-model="parentData.parent" filterable placeholder="输入家长编号">
       <el-option v-for="item in parentList"
                  :key="item.uniqueId"
@@ -49,7 +50,9 @@
         {{ item.name }}
       </el-option>
     </el-select>
-    <el-button @click="changeParent()">确定</el-button>
+    <template #footer>
+      <el-button @click="changeParent()">确定</el-button>
+    </template>
   </el-dialog>
 
   <el-dialog v-model="dialogVisibleNotice" :show-close="false">
@@ -69,9 +72,9 @@
       {{ noticeData.noticeTarget }}
     </div>
     <el-input v-model="noticeData.information" placeholder="输入内容..." type="textarea"/>
-    <div>
+    <template #footer>
       <el-button type="success" @click="pushNotice()">发送</el-button>
-    </div>
+    </template>
   </el-dialog>
 </template>
 

@@ -19,7 +19,15 @@
       <el-table-column prop="contactEmail" label="联系方式（邮箱）"/>
       <el-table-column fixed="right" label="操作" width="300">
         <template #default="scope">
-          <el-button type="danger" @click="removeTeacher(scope.row.uniqueId)">移除教师</el-button>
+          <el-popconfirm title="移除此数据？"
+                         confirm-button-text="确定"
+                         cancel-button-text="取消"
+                         cancel-button-type="danger"
+                         @confirm="removeTeacher(scope.row.uniqueId)">
+            <template #reference>
+              <el-button type="danger">移除教师</el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
