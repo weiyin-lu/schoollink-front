@@ -19,6 +19,7 @@
       <el-table-column prop="contactEmail" label="联系方式（邮箱）"/>
       <el-table-column fixed="right" label="操作" width="300">
         <template #default="scope">
+          <el-button @click="changeGradeBefore(scope.row)" type="success">编入班级</el-button>
           <el-popconfirm title="移除此数据？"
                          confirm-button-text="确定"
                          cancel-button-text="取消"
@@ -31,6 +32,22 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog v-model="dialogVisible" width="450px">
+      <template #title>
+        <h3>编入班级</h3>
+      </template>
+      选择班级：
+      <el-select v-model="changeGradeData.grade" filterable placeholder="输入班级编号">
+        <el-option v-for="item in Object.keys(gradeList)"
+                   :key="item"
+                   :value="item">
+          {{ gradeList[item] + "(" + item + ")" }}
+        </el-option>
+      </el-select>
+      <template #footer>
+        <el-button @click="changeGrade()">确定</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -44,15 +61,20 @@ const teacherList = ref([])
 const queryTeacherList = ref([])
 const genderList = ref({})
 const gradeList = ref({})
-// 查询条件
+const changeGradeData = ref({
+  id: "",
+  grade: ""
+})
+// 条件标识和查询条件
 const idQuery = ref("")
 const nameQuery = ref("")
+const dialogVisible = ref(false)
 
 // 表格内格式化函数
-const genderFormat = (row,column,cellValue) => {
+const genderFormat = (row, column, cellValue) => {
   return genderList.value[cellValue]
 }
-const gradeFormat = (row,column,cellValue) => {
+const gradeFormat = (row, column, cellValue) => {
   return gradeList.value[cellValue]
 }
 // 教师信息查询
@@ -95,12 +117,27 @@ const removeTeacher = (value) => {
         resetQuery()
       })
 }
+// 分配班级数据装填
+const changeGradeBefore = (value) => {
+  dialogVisible.value = true;
+  changeGradeData.value.id = value.uniqueId
+  changeGradeData.value.grade = value.grade
+}
+// 分配班级
+const changeGrade = () => {
+  request.addGradeForTeacher(changeGradeData.value.id, changeGradeData.value.grade)
+      .then(r => {
+        ElMessage.success(r.data.msg)
+        dialogVisible.value = false;
+        resetQuery()
+      })
+}
 // 初始化
 onMounted(() => {
   // 获取数据列表
   request.getTeachersList()
       .then(resp => {
-        if(resp.data.code == 200) {
+        if (resp.data.code == 200) {
           queryTeacherList.value = resp.data.data
           teacherList.value = resp.data.data
         } else {

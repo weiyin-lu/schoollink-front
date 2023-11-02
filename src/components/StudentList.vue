@@ -4,8 +4,9 @@
     <el-select style="width: 300px" v-model="gradeQuery" filterable placeholder="班级">
       <el-option v-for="item in Object.keys(gradeList)"
                  :value="item"
-                 :key="item"
-                 :label="gradeList[item]"/>
+                 :key="item">
+        {{ gradeList[item] + "(" + item + ")" }}
+      </el-option>
     </el-select>
     <el-button type="primary" @click="queryStudentByGrade()">搜索</el-button>
     <el-button @click="clearQueryForGrade()">清空</el-button>
@@ -58,11 +59,12 @@
       <template #title>
         <h3>分配家长</h3>
       </template>
+      选择家长信息：
       <el-select v-model="parentData.parent" filterable placeholder="输入家长编号">
         <el-option v-for="item in parentList"
                    :key="item.uniqueId"
                    :value="item.uniqueId">
-          {{ item.name }}
+          {{ item.name + "(" + item.uniqueId + ")" }}
         </el-option>
       </el-select>
       <template #footer>

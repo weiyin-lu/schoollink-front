@@ -47,7 +47,7 @@
       <el-option v-for="item in parentList"
                  :key="item.uniqueId"
                  :value="item.uniqueId">
-        {{ item.name }}
+        {{ item.name + "(" + item.uniqueId + ")" }}
       </el-option>
     </el-select>
     <template #footer>
