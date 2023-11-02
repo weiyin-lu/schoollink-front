@@ -30,6 +30,7 @@
     <el-table-column prop="contactEmail" label="联系方式（邮箱）" :formatter="nullFormat"/>
     <el-table-column fixed="right" label="操作" width="300">
       <template #default="scope">
+        <el-button @click="changeParentBefore(scope.row)">修改家长</el-button>
         <el-button @click="pushNoticeBefore(scope.row)"
                    type="primary">
           发送通知
@@ -37,8 +38,21 @@
       </template>
     </el-table-column>
   </el-table>
+  <el-dialog v-model="dialogVisibleParent" width="450px">
+    <template #header>
+      添加/修改家长
+    </template>
+    <el-select v-model="parentData.parent" filterable placeholder="输入家长编号">
+      <el-option v-for="item in parentList"
+                 :key="item.uniqueId"
+                 :value="item.uniqueId">
+        {{ item.name }}
+      </el-option>
+    </el-select>
+    <el-button @click="changeParent()">确定</el-button>
+  </el-dialog>
 
-  <el-dialog v-model="dialogVisible" :show-close="false">
+  <el-dialog v-model="dialogVisibleNotice" :show-close="false">
     <template #header="{close, titleId, titleClass}">
       <h4 :id="titleId">发送通知
         <el-button id="close"
@@ -75,8 +89,14 @@ const gradeList = ref({})
 const genderList = ref({})
 const noticeList = ref({})
 const parentInfo = ref({})
+const parentList = ref([])
+const parentData = ref({
+  id: "",
+  parent: ""
+})
 // 判断标识和查询条件
-const dialogVisible = ref(false)
+const dialogVisibleNotice = ref(false)
+const dialogVisibleParent = ref(false)
 const idQuery = ref("")
 const nameQuery = ref("")
 // 请求携带参数
@@ -117,13 +137,39 @@ const getParentInfo = (value) => {
         }
       })
 }
+// 重置查询列表，从服务器重新获得一个完整列表
+const resetQuery = () => {
+  request.getStudentListByGrade(vuex.state.info.grade)
+      .then(r => {
+        queryStudentList.value = r.data.data
+        studentList.value = r.data.data
+      })
+}
+// 修改家长数据装填
+const changeParentBefore = (value) => {
+  dialogVisibleParent.value = true
+  request.getParentsList()
+      .then(r => {
+        parentList.value = r.data.data;
+        parentData.value.id = value.uniqueId
+        parentData.value.parent = value.parents
+      })
+}
+// 修改家长
+const changeParent = () => {
+  request.setParent(parentData.value.id, parentData.value.parent)
+      .then(r => {
+        ElMessage.success(r.data.msg)
+        dialogVisibleParent.value = false
+        resetQuery()
+      })
+}
 // 发送通知数据装填
 const pushNoticeBefore = (value) => {
-  dialogVisible.value = true;
+  dialogVisibleNotice.value = true;
   noticeData.value.noticeTarget = value.uniqueId;
   noticeData.value.noticeType = 'oth'
 }
-
 // 发送通知
 const pushNotice = () => {
   request.addNotice(noticeData.value)
@@ -135,6 +181,7 @@ const pushNotice = () => {
           ElMessage.error(r.data.msg)
         }
       })
+  dialogVisibleNotice.value = false
 }
 // 查询学生信息
 const queryStudent = () => {
