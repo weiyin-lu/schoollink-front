@@ -6,16 +6,18 @@
                  :value="item"
                  :label="gradeList[item]"/>
     </el-select>
-    <el-button type="primary">搜索</el-button>
+    <el-button type="primary" @click="queryStudentByGrade()">搜索</el-button>
+    <el-button type="primary" @click="clearQueryForGrade()">清空</el-button>
   </div>
   <div id="pad">
     <el-input style="width: 300px" v-model="idQuery" placeholder="学号"/>
     <el-input style="width: 300px" v-model="nameQuery" placeholder="姓名"/>
-    <el-button type="primary">搜索</el-button>
+    <el-button type="primary" @click="queryStudent()">搜索</el-button>
+    <el-button type="primary" @click="clearQuery()">清空</el-button>
   </div>
   <div>
     <el-tag>人员信息</el-tag>
-    <el-table :data="studentList">
+    <el-table :data="queryStudentList">
       <el-table-column prop="uniqueId" label="学号"/>
       <el-table-column prop="name" label="姓名"/>
       <el-table-column prop="gender" label="性别" :formatter="genderFormat"/>
@@ -37,8 +39,16 @@
       <el-table-column prop="contactPhone" label="联系方式（电话）" :formatter="nullFormat"/>
       <el-table-column prop="contactEmail" label="联系方式（邮箱）" :formatter="nullFormat"/>
       <el-table-column fixed="right" label="操作" width="300">
-        <template #default>
-          <el-button type="danger">移除学生</el-button>
+        <template #default="scope">
+          <el-popconfirm title="移除此数据？"
+                         confirm-button-text="确定"
+                         cancel-button-text="取消"
+                         cancel-button-type="danger"
+                         @confirm="removeStudent(scope.row.uniqueId)">
+            <template #reference>
+              <el-button type="danger">移除学生</el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -48,10 +58,11 @@
 <script setup>
 import {inject, onMounted, ref} from "vue";
 import {ElMessage} from "element-plus";
-// 引入已挂载的axios全局变量
+// 全局变量
 const request = inject('$api')
 // 数据列表
 const studentList = ref([])
+const queryStudentList = ref([])
 const genderList = ref({})
 const gradeList = ref({})
 const parentInfo = ref({})
@@ -89,14 +100,61 @@ const getParentInfo = (value) => {
         }
       })
 }
-
-
+const queryStudent = () => {
+  if (nameQuery.value == "" && idQuery.value == "") {
+    queryStudentList.value = studentList.value
+  } else {
+    queryStudentList.value = []
+    for (let i = 0; i < studentList.value.length; i++) {
+      if ((nameQuery.value == "" || studentList.value[i].name.indexOf(nameQuery.value) != -1) &&
+          ((idQuery.value == "" || studentList.value[i].uniqueId.indexOf(idQuery.value) != -1))) {
+        queryStudentList.value.push(studentList.value[i])
+      }
+    }
+  }
+}
+const clearQuery = () => {
+  idQuery.value = ""
+  nameQuery.value = ""
+  queryStudentList.value = studentList.value
+}
+const queryStudentByGrade = () => {
+  request.getStudentListByGrade(gradeQuery.value)
+      .then(r => {
+        console.log(r.data.data)
+        queryStudentList.value = r.data.data
+        studentList.value = r.data.data
+      })
+}
+const resetQuery = () => {
+  request.getStudentList()
+      .then(resp => {
+        if (resp.data.code == 200) {
+          queryStudentList.value = resp.data.data
+          studentList.value = resp.data.data
+        } else {
+          ElMessage.error(resp.data.msg)
+        }
+      })
+}
+const clearQueryForGrade = () => {
+  gradeQuery.value = ""
+  resetQuery()
+}
+const removeStudent = (value) => {
+  request.removeStudent(value)
+      .then(r => {
+        ElMessage.success(r.data.msg)
+        resetQuery()
+      })
+}
 // 初始化
 onMounted(() => {
   // 获取数据列表
   request.getStudentList()
       .then(resp => {
         if (resp.data.code == 200) {
+          queryStudentList.value = resp.data.data
           studentList.value = resp.data.data
         } else {
           ElMessage({

@@ -22,20 +22,20 @@ api.getRole = () => {
     return http.get("/users/getRole")
 }
 // admin
-api.addGradeForStudent = (id,value) => {
+api.addGradeForStudent = (id, value) => {
     return http.get("/admins/addGradeForStudent/" + id + "/" + value)
 }
-api.addGradeForTeacher = (id,value) => {
+api.addGradeForTeacher = (id, value) => {
     return http.get("/admins/addGradeForTeacher/" + id + "/" + value)
 }
-api.removeParent = () => {
-    return http.get("/admins/removeParent")
+api.removeParent = (value) => {
+    return http.get("/admins/removeParent/" + value)
 }
-api.removeStudent = () => {
-    return http.get("/admins/removeStudent")
+api.removeStudent = (value) => {
+    return http.get("/admins/removeStudent/" + value)
 }
-api.removeTeacher = () => {
-    return http.get("/admins/removeTeacher")
+api.removeTeacher = (value) => {
+    return http.get("/admins/removeTeacher/" + value)
 }
 // dictionary
 api.getKey = () => {
@@ -80,7 +80,7 @@ api.getStudentListByGrade = (value) => {
 api.getStudentsByUnique = (value) => {
     return http.get("/students/getStudentsByUnique/" + value)
 }
-api.setParent = (id,value) => {
+api.setParent = (id, value) => {
     return http.get("/students/setParent/" + id, "/" + value)
 }
 api.updateStudent = (dto) => {
