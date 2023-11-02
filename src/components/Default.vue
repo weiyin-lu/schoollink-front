@@ -8,8 +8,8 @@
       </template>
       <div><el-tag>身份</el-tag> {{ roleFormat(vuex.state.role) }}</div>
       <div><el-tag>账号</el-tag> {{ vuex.state.info.uniqueId }}</div>
-      <div><el-tag>联系电话</el-tag> {{ vuex.state.info.contactPhone }}</div>
-      <div><el-tag>联系邮箱</el-tag> {{ vuex.state.info.contactEmail }}</div>
+      <div v-if="vuex.state.role != 'admin'"><el-tag>联系电话</el-tag> {{ vuex.state.info.contactPhone }}</div>
+      <div v-if="vuex.state.role != 'admin'"><el-tag>联系邮箱</el-tag> {{ vuex.state.info.contactEmail }}</div>
       <div v-if="vuex.state.role == '1'"><el-tag>管理班级</el-tag> {{ gradeFormat(vuex.state.info.grade) }}</div>
       <div v-if="vuex.state.role == '2'"><el-tag>所在班级</el-tag> {{ gradeFormat(vuex.state.info.grade) }}</div>
       <el-divider />

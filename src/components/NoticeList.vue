@@ -1,5 +1,6 @@
 <template>
-  <el-button v-if="vuex.state.role[0] != '3'" type="primary" @click="dialogVisibleAdd = true">发布通知</el-button>
+  <el-button v-if="vuex.state.role[0] != '3'" type="primary" @click="dialogVisibleAdd = true">发布通知
+  </el-button>
   <div id="pad">
     <el-tag>我收到的</el-tag>
   </div>
