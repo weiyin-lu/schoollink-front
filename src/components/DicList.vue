@@ -10,7 +10,7 @@
           <template #header>
             {{ item }}
           </template>
-          <el-button @click="dialogVisible=true; getCodeByType(item)">查看详情</el-button>
+          <el-button @click="getCodeByType(item)">查看详情</el-button>
         </el-card>
       </el-col>
     </el-row>
@@ -30,7 +30,7 @@
         <el-tag>操作</el-tag>
       </el-col>
     </el-row>
-    <el-row gutter="10px" v-for="(value,key,index) in dicList">
+    <el-row gutter="10px" v-for="(value,key) in dicList">
       <el-col id="tab" :span="8">{{ key }}</el-col>
       <el-col id="tab" :span="8">{{ value }}</el-col>
       <el-col id="tab" :span="8">
@@ -54,14 +54,17 @@ const dicList = ref({})
 // 判断标识和查询条件
 const dialogVisible = ref(false)
 
+// 获取对应字典编码的键值列表
 const getCodeByType = (value) => {
+  dialogVisible.value=true;
   request.getCode(value)
       .then(r => {
         dicList.value = r.data.data
       })
 }
-
+// 初始化
 onMounted(() => {
+  // 获取字典编码列表
   request.getKey()
       .then(r => {
         dicKeyList.value = r.data.data

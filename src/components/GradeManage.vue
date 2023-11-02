@@ -30,9 +30,7 @@
     <el-table-column prop="contactEmail" label="联系方式（邮箱）" :formatter="nullFormat"/>
     <el-table-column fixed="right" label="操作" width="300">
       <template #default="scope">
-        <el-button @click="dialogVisible = true;
-        noticeData.noticeTarget = scope.row.uniqueId;
-        noticeData.noticeType = 'oth'"
+        <el-button @click="pushNoticeBefore(scope.row)"
                    type="primary">
           发送通知
         </el-button>
@@ -105,7 +103,7 @@ const nullFormat = (row, column, cellValue) => {
     return cellValue
   }
 }
-// 数据获取
+// 获取学生对应的家长信息
 const getParentInfo = (value) => {
   request.getParentByUnique(value)
       .then(r => {
@@ -119,16 +117,26 @@ const getParentInfo = (value) => {
         }
       })
 }
+// 发送通知数据装填
+const pushNoticeBefore = (value) => {
+  dialogVisible.value = true;
+  noticeData.value.noticeTarget = value.uniqueId;
+  noticeData.value.noticeType = 'oth'
+}
+
+// 发送通知
 const pushNotice = () => {
   request.addNotice(noticeData.value)
       .then(r => {
         if (r.data.code = 200) {
           ElMessage.success(r.data.msg)
+          dialogVisible.value = false
         } else {
           ElMessage.error(r.data.msg)
         }
       })
 }
+// 查询学生信息
 const queryStudent = () => {
   if (nameQuery.value == "" && idQuery.value == "") {
     queryStudentList.value = studentList.value
@@ -142,11 +150,13 @@ const queryStudent = () => {
     }
   }
 }
+// 清空查询条件
 const clearQuery = () => {
   idQuery.value = ""
   nameQuery.value = ""
   queryStudentList.value = studentList.value
 }
+// 初始化
 onMounted(() => {
   // 获取格式化码表
   request.getCode('grade')

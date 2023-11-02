@@ -81,7 +81,7 @@ api.getStudentsByUnique = (value) => {
     return http.get("/students/getStudentsByUnique/" + value)
 }
 api.setParent = (id, value) => {
-    return http.get("/students/setParent/" + id, "/" + value)
+    return http.get("/students/setParent/" + id + "/" + value)
 }
 api.updateStudent = (dto) => {
     return http.post("/students/updateStudent", dto)

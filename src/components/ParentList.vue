@@ -50,7 +50,7 @@
 <script setup>
 import {inject, onMounted, ref} from "vue";
 import {ElMessage} from "element-plus";
-// 引入已挂载的axios全局变量
+// 全局变量
 const request = inject('$api')
 // 数据列表
 const parentList = ref([])
@@ -70,7 +70,7 @@ const gradeFormat = (row, column, cellValue) => {
   return gradeList.value[cellValue]
 }
 
-// 数据获取
+// 家长信息查询
 const queryParent = () => {
   if (nameQuery.value == "" && idQuery.value == "") {
     queryParentList.value = parentList.value
@@ -84,11 +84,13 @@ const queryParent = () => {
     }
   }
 }
+// 清空查询条件
 const clearQuery = () => {
   idQuery.value = ""
   nameQuery.value = ""
   queryParentList.value = parentList.value
 }
+// 重置查询列表，从服务器重新获取一个完整列表
 const resetQuery = () => {
   request.getParentsList()
       .then(resp => {
@@ -100,12 +102,14 @@ const resetQuery = () => {
         }
       })
 }
+// 查看家长对应的学生信息
 const showStudent = (value) => {
   request.getOwnStudent(value)
       .then(r => {
         studentInfo.value = r.data.data
       })
 }
+// 删除家长
 const removeParent = (value) => {
   request.removeParent(value)
       .then(r => {
@@ -115,7 +119,7 @@ const removeParent = (value) => {
 }
 // 初始化
 onMounted(() => {
-  // 获取数据列表
+  // 获取家长数据列表
   request.getParentsList()
       .then(resp => {
         if (resp.data.code == 200) {

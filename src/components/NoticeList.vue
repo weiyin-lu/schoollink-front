@@ -90,20 +90,24 @@ const noticeTypeList = ref({})
 // 判断标识和查询条件
 const dialogVisibleDetail = ref(false)
 const dialogVisibleAdd = ref(false)
-// 页面初始化
+// 初始化
 onMounted(() => {
+  // 获取当前账户发送的通知
   request.showNoticeByCreator()
       .then(r => {
         ownNoticeList.value = r.data.data
       })
+  // 获取当前账户接收到的通知
   request.showNoticeByCondition(vuex.state.info.uniqueId)
       .then(r => {
         toPersonNoticeList.value = r.data.data
       })
+  // 获取当前账户所在班级的通知
   request.showNoticeByCondition(vuex.state.info.grade)
       .then(r => {
         toGradeNoticeList.value = r.data.data
       })
+  // 格式化码表
   request.getCode("notice")
       .then(r => {
         noticeTypeList.value = r.data.data

@@ -40,6 +40,7 @@
       <el-table-column prop="contactEmail" label="联系方式（邮箱）" :formatter="nullFormat"/>
       <el-table-column fixed="right" label="操作" width="300">
         <template #default="scope">
+          <el-button type="success" @click="changeParentBefore(scope.row)">分配家长</el-button>
           <el-popconfirm title="移除此数据？"
                          confirm-button-text="确定"
                          cancel-button-text="取消"
@@ -52,6 +53,19 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-dialog v-model="dialogVisible" width="450px">
+      <template #header>
+        添加/修改家长
+      </template>
+      <el-select v-model="parentData.parent" filterable placeholder="输入家长编号">
+        <el-option v-for="item in parentList"
+                   :key="item.uniqueId"
+                   :value="item.uniqueId">
+          {{ item.name }}
+        </el-option>
+      </el-select>
+      <el-button @click="changeParent()">确定</el-button>
+    </el-dialog>
   </div>
 </template>
 
@@ -66,10 +80,16 @@ const queryStudentList = ref([])
 const genderList = ref({})
 const gradeList = ref({})
 const parentInfo = ref({})
-// 查询条件
+const parentList = ref([])
+const parentData = ref({
+  id: "",
+  parent: ""
+})
+// 查询条件和判断标识
 const idQuery = ref("")
 const nameQuery = ref("")
 const gradeQuery = ref("")
+const dialogVisible = ref(false)
 
 // 表格内格式化函数
 const genderFormat = (row, column, cellValue) => {
@@ -86,7 +106,7 @@ const nullFormat = (row, column, cellValue) => {
   }
 }
 
-// 数据获取
+// 获取学生对应的家长信息
 const getParentInfo = (value) => {
   request.getParentByUnique(value)
       .then(r => {
@@ -100,6 +120,7 @@ const getParentInfo = (value) => {
         }
       })
 }
+// 学生查询
 const queryStudent = () => {
   if (nameQuery.value == "" && idQuery.value == "") {
     queryStudentList.value = studentList.value
@@ -113,11 +134,13 @@ const queryStudent = () => {
     }
   }
 }
+// 清空查询条件
 const clearQuery = () => {
   idQuery.value = ""
   nameQuery.value = ""
   queryStudentList.value = studentList.value
 }
+// 查询特定班级的学生，从服务器获取
 const queryStudentByGrade = () => {
   request.getStudentListByGrade(gradeQuery.value)
       .then(r => {
@@ -126,6 +149,7 @@ const queryStudentByGrade = () => {
         studentList.value = r.data.data
       })
 }
+// 重置查询列表，从服务器重新获得一个完整列表
 const resetQuery = () => {
   request.getStudentList()
       .then(resp => {
@@ -137,10 +161,31 @@ const resetQuery = () => {
         }
       })
 }
+// 清空班级查询
 const clearQueryForGrade = () => {
   gradeQuery.value = ""
   resetQuery()
 }
+// 修改家长数据装填
+const changeParentBefore = (value) => {
+  dialogVisible.value = true
+  request.getParentsList()
+      .then(r => {
+        parentList.value = r.data.data;
+        parentData.value.id = value.uniqueId
+        parentData.value.parent = value.parents
+      })
+}
+// 修改家长
+const changeParent = () => {
+  request.setParent(parentData.value.id,parentData.value.parent)
+      .then(r => {
+        ElMessage.success(r.data.msg)
+        dialogVisible.value = false
+        resetQuery()
+      })
+}
+// 删除学生
 const removeStudent = (value) => {
   request.removeStudent(value)
       .then(r => {
