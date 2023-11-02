@@ -7,13 +7,13 @@
                  :label="gradeList[item]"/>
     </el-select>
     <el-button type="primary" @click="queryStudentByGrade()">搜索</el-button>
-    <el-button type="primary" @click="clearQueryForGrade()">清空</el-button>
+    <el-button @click="clearQueryForGrade()">清空</el-button>
   </div>
   <div id="pad">
     <el-input style="width: 300px" v-model="idQuery" placeholder="学号"/>
     <el-input style="width: 300px" v-model="nameQuery" placeholder="姓名"/>
     <el-button type="primary" @click="queryStudent()">搜索</el-button>
-    <el-button type="primary" @click="clearQuery()">清空</el-button>
+    <el-button @click="clearQuery()">清空</el-button>
   </div>
   <div>
     <el-tag>人员信息</el-tag>
