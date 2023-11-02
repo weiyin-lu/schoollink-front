@@ -40,9 +40,13 @@
       </el-table-column>
       <el-table-column prop="contactPhone" label="联系方式（电话）" :formatter="nullFormat"/>
       <el-table-column prop="contactEmail" label="联系方式（邮箱）" :formatter="nullFormat"/>
-      <el-table-column fixed="right" label="操作" width="300">
+      <el-table-column fixed="right" label="操作" width="400">
         <template #default="scope">
           <el-button type="success" @click="changeParentBefore(scope.row)">分配家长</el-button>
+          <el-button v-if="vuex.state.role[0] == 'admin'" type="success"
+                     @click="changeGradeBefore(scope.row)">
+            分配班级
+          </el-button>
           <el-popconfirm title="移除此数据？"
                          confirm-button-text="确定"
                          cancel-button-text="取消"
@@ -55,7 +59,23 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog v-model="dialogVisible" width="450px">
+    <el-dialog v-model="dialogVisibleGrade" width="450px">
+      <template #title>
+        <h3>编入班级</h3>
+      </template>
+      选择班级：
+      <el-select v-model="changeGradeData.grade" filterable placeholder="输入班级编号">
+        <el-option v-for="item in Object.keys(gradeList)"
+                   :key="item"
+                   :value="item">
+          {{ gradeList[item] + "(" + item + ")" }}
+        </el-option>
+      </el-select>
+      <template #footer>
+        <el-button @click="changeGrade()">确定</el-button>
+      </template>
+    </el-dialog>
+    <el-dialog v-model="dialogVisibleParent" width="450px">
       <template #title>
         <h3>分配家长</h3>
       </template>
@@ -77,8 +97,10 @@
 <script setup>
 import {inject, onMounted, ref} from "vue";
 import {ElMessage} from "element-plus";
+import {useStore} from "vuex";
 // 全局变量
 const request = inject('$api')
+const vuex = useStore()
 // 数据列表
 const studentList = ref([])
 const queryStudentList = ref([])
@@ -86,6 +108,7 @@ const genderList = ref({})
 const gradeList = ref({})
 const parentInfo = ref({})
 const parentList = ref([])
+const changeGradeData = ref({})
 const parentData = ref({
   id: "",
   parent: ""
@@ -94,7 +117,8 @@ const parentData = ref({
 const idQuery = ref("")
 const nameQuery = ref("")
 const gradeQuery = ref("")
-const dialogVisible = ref(false)
+const dialogVisibleParent = ref(false)
+const dialogVisibleGrade = ref(false)
 
 // 表格内格式化函数
 const genderFormat = (row, column, cellValue) => {
@@ -173,7 +197,7 @@ const clearQueryForGrade = () => {
 }
 // 修改家长数据装填
 const changeParentBefore = (value) => {
-  dialogVisible.value = true
+  dialogVisibleParent.value = true
   request.getParentsList()
       .then(r => {
         parentList.value = r.data.data;
@@ -186,7 +210,22 @@ const changeParent = () => {
   request.setParent(parentData.value.id, parentData.value.parent)
       .then(r => {
         ElMessage.success(r.data.msg)
-        dialogVisible.value = false
+        dialogVisibleParent.value = false
+        resetQuery()
+      })
+}
+// 分配班级数据装填
+const changeGradeBefore = (value) => {
+  dialogVisibleGrade.value = true;
+  changeGradeData.value.id = value.uniqueId
+  changeGradeData.value.grade = value.grade
+}
+// 分配班级
+const changeGrade = () => {
+  request.addGradeForStudent(changeGradeData.value.id, changeGradeData.value.grade)
+      .then(r => {
+        ElMessage.success(r.data.msg)
+        dialogVisibleGrade.value = false;
         resetQuery()
       })
 }
