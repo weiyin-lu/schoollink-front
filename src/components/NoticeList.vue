@@ -99,13 +99,13 @@
     </el-row>
     <el-row>
       <el-tag>通知目标</el-tag>
-      <el-col :span="6">
+      <el-col v-if="vuex.state.role[0] == 'admin'||vuex.state.role[0] == '1'" :span="6">
         <el-radio-group v-model="NoticeTarget">
           <el-radio label="1" @change="changeNoticeTarget()">班级</el-radio>
           <el-radio label="2" @change="changeNoticeTarget()">个人</el-radio>
         </el-radio-group>
       </el-col>
-      <el-col :span="6" v-if="noticeTargetVisible">
+      <el-col :span="6" v-if="noticeTargetVisible || vuex.state.role[0] == '2'">
         <el-input v-model="noticeData.noticeTarget" placeholder="输入通知对象工号/学号"/>
       </el-col>
     </el-row>

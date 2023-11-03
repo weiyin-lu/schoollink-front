@@ -37,7 +37,7 @@
         <el-button size="small">修改</el-button>
       </el-col>
     </el-row>
-    <template #header>
+    <template #footer>
       <el-button type="primary">添加</el-button>
     </template>
   </el-dialog>
