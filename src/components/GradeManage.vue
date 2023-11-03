@@ -60,7 +60,7 @@
       <h4 :id="titleId">发送通知
         <el-button id="close"
                    type="danger"
-                   @click="dialogVisible = false; noticeData.information = ''">
+                   @click="dialogVisibleNotice = false; noticeData.information = ''">
           关闭
         </el-button>
       </h4>
