@@ -1,7 +1,25 @@
-# Vue 3 + Vite
+# SchoolLink学生管理系统（前端）
+基于springboot的简易学生管理系统（前端）  
+[Springboot后端仓库地址](https://gitee.com/weiyin2002/schoollink)
+## 技术栈和版本
+### 主要技术栈
+主要技术栈和对应版本如下：
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+| 名称           | 版本     |
+|--------------|--------|
+| Vue          | 3.3.4  |
+| vue-router   | 4.0.13 |
+| Vuex         | 4.0.2  |
+| axios        | 1.5.1  |
+| element-plus | 2.4.0  |
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## 基本使用
+使用如下命令安装相关依赖
+```
+npm install
+```
+使用如下命令启动项目
+```
+npm run dev
+```
+启动后的默认端口号为`5172`
