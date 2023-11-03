@@ -33,6 +33,7 @@
           <el-menu-item v-if="vuex.state.role[0] == 'admin'" index="studentList">学生管理</el-menu-item>
           <el-menu-item v-if="vuex.state.role[0] == 'admin'" index="parentList">家长管理</el-menu-item>
           <el-menu-item v-if="vuex.state.role[0] == 'admin'" index="dicList">字典管理</el-menu-item>
+          <el-menu-item v-if="vuex.state.role[0] == 'admin'" index="register">用户注册</el-menu-item>
           <el-menu-item v-if="vuex.state.role[0] == '1'" index="gradeManage">班级管理</el-menu-item>
           <el-menu-item index="noticeList">通知</el-menu-item>
         </el-menu>

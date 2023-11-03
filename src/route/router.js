@@ -27,6 +27,8 @@ const routes = [// 主页
             path: 'noticeList', component: () => import('/src/components/NoticeList.vue')
         }, {
             path: 'gradeManage', component: () => import('/src/components/GradeManage.vue')
+        },{
+            path: 'register', component: () => import('/src/components/Register.vue')
         },]
     },]
 

@@ -1,5 +1,5 @@
 <template>
-  <el-button v-if="vuex.state.role[0] == '1'" type="primary">新增字典</el-button>
+  <el-button v-if="vuex.state.role[0] == 'admin'" type="primary">新增字典</el-button>
   <div id="pad">
     <el-tag>字典列表</el-tag>
   </div>
