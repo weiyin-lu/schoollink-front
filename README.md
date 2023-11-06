@@ -1,4 +1,4 @@
-# SchoolLink学生管理系统（前端）
+# SchoolLink学校管理系统（前端）
 基于springboot的简易学生管理系统（前端）  
 [Springboot后端仓库地址](https://gitee.com/weiyin2002/schoollink)
 ## 技术栈和版本
