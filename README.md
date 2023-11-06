@@ -1,6 +1,6 @@
 # SchoolLink学校管理系统（前端）
 基于springboot的简易学生管理系统（前端）  
-[Springboot后端仓库地址](https://gitee.com/weiyin2002/schoollink)
+[Springboot后端仓库地址](https://github.com/weiyin-lu/schooklink-java)
 ## 技术栈和版本
 ### 主要技术栈
 主要技术栈和对应版本如下：
